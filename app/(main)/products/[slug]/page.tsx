@@ -2,16 +2,18 @@ import { products, getProductBySlug, getProductsByCategory } from "@/lib/data";
 import { notFound } from "next/navigation";
 import ProductDetailClient from "./ProductDetailClient";
 
-export async function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+export function generateStaticParams() {
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
 }
 
-export default async function ProductPage({
+export default async function ProductDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug } = await params; // ← thêm await ở đây
   const product = getProductBySlug(slug);
 
   if (!product) {
@@ -23,9 +25,6 @@ export default async function ProductPage({
     .slice(0, 6);
 
   return (
-    <ProductDetailClient
-      product={product}
-      relatedProducts={relatedProducts}
-    />
+    <ProductDetailClient product={product} relatedProducts={relatedProducts} />
   );
 }

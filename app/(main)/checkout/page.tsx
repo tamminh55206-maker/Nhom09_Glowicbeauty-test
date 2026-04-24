@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,8 +19,8 @@ import {
   Tag,
 } from "lucide-react";
 import { useCartStore } from "@/lib/store";
+import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
-import { formatPrice } from "@/lib/utils";
 
 // Animation variants
 const fadeIn = {
@@ -28,7 +28,10 @@ const fadeIn = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 } as const;
 
-// formatPrice is now imported from @/lib/utils (stable across SSR/client)
+// Format price helper
+const formatPrice = (price: number) => {
+  return price.toLocaleString("vi-VN") + "đ";
+};
 
 // Checkout schema
 const checkoutSchema = z.object({
@@ -77,12 +80,8 @@ export default function CheckoutPage() {
   const totalPrice = useCartStore((state) => state.totalPrice());
   const clearCart = useCartStore((state) => state.clearCart);
 
-  const [mounted, setMounted] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("cod");
-  const [appliedDiscount, setAppliedDiscount] = useState<{
-    code: string;
-    amount: number;
-  } | null>(null);
+  const [appliedDiscount, setAppliedDiscount] = useState<AppliedDiscount | null>(null);
 
   const {
     register,
@@ -94,13 +93,6 @@ export default function CheckoutPage() {
       ghiNho: false,
     },
   });
-
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!mounted) return null;
 
   // Calculate shipping
   const shippingFee = totalPrice >= 500000 ? 0 : 30000;
@@ -552,7 +544,7 @@ export default function CheckoutPage() {
 
                   {/* Terms */}
                   <p className="mt-4 text-xs text-gray-500">
-                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo{" "}
+                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo&nbsp;
                     <Link href="#" className="underline hover:text-rose-500">
                       Điều khoản Glowic
                     </Link>

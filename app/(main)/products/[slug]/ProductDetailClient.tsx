@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { Star, ShoppingCart, Minus, Plus, ChevronRight } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
-import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/lib/types";
 
 // Animation variants
@@ -17,11 +16,7 @@ const fadeIn = {
 } as const;
 
 // Product Card Component for related products
-function ProductCard({
-  product,
-}: {
-  product: Product;
-}) {
+function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = () => {
@@ -74,7 +69,7 @@ function ProductCard({
 
         <div className="flex items-center justify-between">
           <span className="text-base font-bold" style={{ color: "#A53860" }}>
-            {formatPrice(product.price)}
+            {product.price.toLocaleString("vi-VN")}đ
           </span>
           <button
             onClick={handleAddToCart}
@@ -89,7 +84,7 @@ function ProductCard({
   );
 }
 
-// Main Product Detail Page
+// Main Product Detail Client Component
 export default function ProductDetailClient({
   product,
   relatedProducts,
@@ -249,7 +244,7 @@ export default function ProductDetailClient({
               </div>
               <span className="text-sm text-gray-600">
                 {product.rating} (
-                {product.rating > 4 ? 328 : product.rating > 3.5 ? 256 : 188}{" "}
+                {product.rating > 4 ? 328 : product.rating > 3.5 ? 256 : 189}{" "}
                 đánh giá)
               </span>
             </div>
@@ -257,7 +252,7 @@ export default function ProductDetailClient({
             {/* Price */}
             <div className="mt-4">
               <span className="text-3xl font-bold" style={{ color: "#450920" }}>
-                {formatPrice(product.price)}
+                {product.price.toLocaleString("vi-VN")}đ
               </span>
             </div>
 

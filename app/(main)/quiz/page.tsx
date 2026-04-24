@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ArrowRight, RotateCcw, Sparkles } from "lucide-react";
@@ -229,7 +229,7 @@ const skinTypeResults: Record<
   },
   normal: {
     title: "Da Thường (Normal Skin)",
-    desc: "Da bạn cân bằng tốt, dễ chăm sóc. Hãy duy trì và thêm sáng da dần.",
+    desc: "Da bạn cân bằng tốt, dễ chăm sóc. Hãy duy trì routine hiện tại nhé.",
     skincare: [
       {
         name: "Cocoon Winter Melon Gel Cream 30ml",
@@ -440,7 +440,6 @@ function ProductCard({
 }
 
 export default function QuizPage() {
-  const [mounted, setMounted] = useState(false);
   const {
     quizAnswers: answers,
     quizCompleted: showResult,
@@ -451,13 +450,6 @@ export default function QuizPage() {
     resetQuiz,
   } = useQuizStore();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!mounted) return null;
 
   const question = allQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / allQuestions.length) * 100;

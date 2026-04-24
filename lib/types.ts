@@ -8,6 +8,11 @@ export type Brand =
   | "Romand"
   | "Cerave";
 
+export interface AppliedDiscount {
+  code: string;
+  amount: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -20,6 +25,8 @@ export interface Product {
   stock: number;
   skinType: string[];
   slug: string;
+  variant?: string;
+  appliedDiscount?: AppliedDiscount;
 }
 
 export interface CartItem {
