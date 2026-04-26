@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
+import { image } from "framer-motion/client";
+import { assetPath } from "@/lib/utils";
 
 // Animation variants
 const fadeInUp = {
@@ -19,6 +21,17 @@ const staggerContainer = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 } as const;
+
+// ADDED
+function scrollToSectionWithOffset(id: string) {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  const yOffset = -150;
+  const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
 
 // ─── Countdown Timer ───────────────────────────────────────────────────────────
 function CountdownTimer() {
@@ -155,11 +168,11 @@ function BannerSection() {
   const [current, setCurrent] = useState(0);
 
   const images = [
-    "/images/banner/banner-1.jpg",
-    "/images/banner/banner-2.png",
-    "/images/banner/banner-3.jpg",
-    "/images/banner/banner-4.jpg",
-    "/images/banner/banner-5.png",
+    assetPath("/images/banner/banner-1.jpg"),
+    assetPath("/images/banner/banner-2.png"),
+    assetPath("/images/banner/banner-3.jpg"),
+    assetPath("/images/banner/banner-4.jpg"),
+    assetPath("/images/banner/banner-5.png"),
   ];
 
   useEffect(() => {
@@ -232,6 +245,7 @@ function FlashSaleSection() {
 
   return (
     <motion.section
+      id="flash-sale"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -335,12 +349,24 @@ function ProductsSection() {
 // ─── Categories Section ────────────────────────────────────────────────────────
 function CategoriesSection() {
   const categories = [
-    { name: "Son môi", image: "/images/danhmuc/son.png", count: 15 },
-    { name: "Kem nền", image: "/images/danhmuc/kem-nen.png", count: 12 },
-    { name: "Chăm sóc da", image: "/images/danhmuc/duong-da.png", count: 20 },
-    { name: "Mắt", image: "/images/danhmuc/mat.png", count: 18 },
-    { name: "Phấn má", image: "/images/danhmuc/ma.png", count: 8 },
-    { name: "Kem lót", image: "/images/danhmuc/kem-lot.png", count: 10 },
+    { name: "Son môi", image: assetPath("/images/danhmuc/son.png"), count: 15 },
+    {
+      name: "Kem nền",
+      image: assetPath("/images/danhmuc/kem-nen.png"),
+      count: 12,
+    },
+    {
+      name: "Chăm sóc da",
+      image: assetPath("/images/danhmuc/duong-da.png"),
+      count: 20,
+    },
+    { name: "Mắt", image: assetPath("/images/danhmuc/mat.png"), count: 18 },
+    { name: "Phấn má", image: assetPath("/images/danhmuc/ma.png"), count: 8 },
+    {
+      name: "Kem lót",
+      image: assetPath("/images/danhmuc/kem-lot.png"),
+      count: 10,
+    },
   ];
 
   return (
@@ -424,18 +450,19 @@ function CategoriesSection() {
 // ─── Brands Section ────────────────────────────────────────────────────────────
 function BrandsSection() {
   const brands = [
-    { name: "Carslan", image: "/images/brands/carslan.png" },
-    { name: "Cocoon", image: "/images/brands/cocoon.png" },
-    { name: "L'Oréal", image: "/images/brands/loreal.png" },
-    { name: "Cerave", image: "/images/brands/cerave.png" },
-    { name: "Maybelline", image: "/images/brands/maybelline.png" },
-    { name: "Peripera", image: "/images/brands/peripera.png" },
-    { name: "Romand", image: "/images/brands/romand.png" },
-    { name: "3CE", displayName: "3CE" },
+    { name: "Carslan", image: assetPath("/images/brands/carslan.png") },
+    { name: "Cocoon", image: assetPath("/images/brands/cocoon.png") },
+    { name: "L'Oréal", image: assetPath("/images/brands/loreal.png") },
+    { name: "Cerave", image: assetPath("/images/brands/cerave.png") },
+    { name: "Maybelline", image: assetPath("/images/brands/maybelline.png") },
+    { name: "Peripera", image: assetPath("/images/brands/peripera.png") },
+    { name: "Romand", image: assetPath("/images/brands/romand.png") },
+    { name: "3CE", image: assetPath("/images/brands/3ce.png") },
   ];
 
   return (
     <motion.section
+      id="featured-brands"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -496,7 +523,7 @@ function BrandsSection() {
                   </div>
                 ) : (
                   <span className="text-base md:text-lg font-bold text-gray-800">
-                    {brand.displayName}
+                    {brand.name}
                   </span>
                 )}
               </Link>
@@ -511,32 +538,28 @@ function BrandsSection() {
 // ─── Glowic Features Section ───────────────────────────────────────────────────
 function GlowicFeaturesSection() {
   const skinCategories = [
-    { name: "Da thường", image: "/images/skin/da-thuong.png" },
-    { name: "Da khô", image: "/images/skin/da-kho.png" },
-    { name: "Da dầu", image: "/images/skin/da-dau.png" },
-    { name: "Da nhạy cảm", image: "/images/skin/da-nhay-cam.png" },
-    { name: "Da hỗn hợp", image: "/images/skin/da-hon-hop.png" },
+    { name: "Da thường", image: assetPath("/images/skin/da-thuong.png") },
+    { name: "Da khô", image: assetPath("/images/skin/da-kho.png") },
+    { name: "Da dầu", image: assetPath("/images/skin/da-dau.png") },
+    { name: "Da nhạy cảm", image: assetPath("/images/skin/da-nhay-cam.png") },
+    { name: "Da hỗn hợp", image: assetPath("/images/skin/da-hon-hop.png") },
   ];
 
+  // Helper cho mỗi ô chọn loại da
   const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
     <Link href="/quiz" className="group flex flex-col items-center">
-      <div className="w-full aspect-square bg-white dark:bg-gray-800 border border-black/10 shadow rounded-xl flex items-center justify-center overflow-hidden">
+      <div className="w-[185px] h-[185px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl flex items-center justify-center overflow-hidden transition-all hover:shadow-lg">
         <Image
           src={cat.image}
           alt={cat.name}
           width={130}
           height={130}
-          className="object-contain group-hover:scale-105 transition-transform duration-300 w-3/4 h-3/4"
-          style={{ width: "auto", height: "auto" }}
+          className="object-contain group-hover:scale-110 transition-transform duration-300"
         />
       </div>
       <span
-        className="mt-2 text-center text-gray-900 dark:text-white"
-        style={{
-          fontFamily: '"Be Vietnam Pro", sans-serif',
-          fontSize: "clamp(13px, 1.5vw, 18px)",
-          fontWeight: 400,
-        }}
+        className="mt-2 text-center text-black font-medium text-[20px]"
+        style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
       >
         {cat.name}
       </span>
@@ -545,216 +568,37 @@ function GlowicFeaturesSection() {
 
   return (
     <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      variants={staggerContainer}
-      className="w-full"
+      className="w-full relative overflow-hidden h-[600px]"
       style={{
         background: "linear-gradient(0deg, #F9DBBD -9.31%, #FFFFFF 96.81%)",
       }}
     >
-      {/* ── MOBILE layout (< md) ── */}
-      <div className="md:hidden px-4 py-8">
-        {/* Model ảnh */}
-        <div className="relative w-full h-[220px] mb-6">
-          <Image
-            src="/images/model-banner.png"
-            alt="Bạn cần gì đó? Có Glowic lo"
-            fill
-            className="object-contain object-center"
-            sizes="100vw"
-          />
-        </div>
-
-        {/* Grid loại da – 3 cột */}
-        <div className="grid grid-cols-3 gap-3">
-          {skinCategories.slice(0, 3).map((cat) => (
-            <SkinCard key={cat.name} cat={cat} />
-          ))}
-          {skinCategories.slice(3).map((cat) => (
-            <SkinCard key={cat.name} cat={cat} />
-          ))}
-          <Link
-            href="/products"
-            className="flex flex-col items-center justify-center aspect-square bg-white dark:bg-gray-800 border border-black/10 shadow rounded-xl"
-          >
-            <span className="text-base font-bold text-gray-900 dark:text-white text-center">
-              Xem thêm
-            </span>
-            <span className="text-xl">→</span>
-          </Link>
-        </div>
+      {/* 1. LỚP NỀN: Ảnh model (Luôn nằm bên trái) */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={assetPath("/images/model-banner.png")}
+          alt="Banner"
+          fill
+          className="object-contain object-left"
+          priority
+        />
       </div>
 
-      {/* ── TABLET layout (md → lg) ── */}
-      <div className="hidden md:flex lg:hidden flex-col items-center py-10 px-6 gap-6">
-        <div className="relative w-full h-[300px]">
-          <Image
-            src="/images/model-banner.png"
-            alt="Bạn cần gì đó? Có Glowic lo"
-            fill
-            className="object-contain object-center"
-            sizes="100vw"
-          />
-        </div>
-        <div className="grid grid-cols-3 gap-4 w-full max-w-[600px]">
+      {/* 2. LỚP NỔI: Grid 6 ô (Căn về bên phải) */}
+      <div className="relative z-10 mx-auto flex h-full max-w-[1280px] items-center justify-end px-10">
+        <div className="grid grid-cols-3 gap-x-6 gap-y-4">
           {skinCategories.map((cat) => (
             <SkinCard key={cat.name} cat={cat} />
           ))}
+
+          {/* Ô Xem thêm */}
           <Link
             href="/products"
-            className="flex flex-col items-center justify-center aspect-square bg-white dark:bg-gray-800 border border-black/10 shadow rounded-xl"
+            className="flex flex-col items-center justify-center w-[185px] h-[185px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
           >
-            <span className="text-base font-bold text-gray-900 dark:text-white text-center">
-              Xem thêm
-            </span>
-            <span className="text-xl">→</span>
+            <span className="text-[24px] font-bold text-black">Xem thêm</span>
+            <span className="text-2xl">→</span>
           </Link>
-        </div>
-      </div>
-
-      {/* ── DESKTOP layout (≥ lg) – giữ nguyên overlay gốc ── */}
-      <div className="hidden lg:block relative" style={{ height: "596px" }}>
-        {/* Background model */}
-        <div className="absolute inset-0 w-full h-full">
-          <Image
-            src="/images/model-banner.png"
-            alt="Bạn cần gì đó? Có Glowic lo"
-            fill
-            className="object-contain object-left"
-            sizes="100vw"
-            priority
-          />
-        </div>
-
-        {/* Grid loại da overlay bên phải */}
-        <div
-          className="relative z-10 mx-auto flex w-full max-w-[1280px] items-center justify-end"
-          style={{ height: "596px", paddingRight: "40px" }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 160px)",
-              gap: "16px",
-            }}
-          >
-            {skinCategories.slice(0, 3).map((cat) => (
-              <Link
-                key={cat.name}
-                href="/quiz"
-                className="group flex flex-col items-center"
-              >
-                <div
-                  style={{
-                    width: "185px",
-                    height: "185px",
-                    background: "#FFFFFF",
-                    border: "0.5px solid rgba(0,0,0,0.25)",
-                    boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
-                    borderRadius: "12px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Image
-                    src={cat.image}
-                    alt={cat.name}
-                    width={130}
-                    height={131}
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </div>
-                <span
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "22px",
-                    fontWeight: 400,
-                    color: "#000000",
-                    marginTop: "4px",
-                    textAlign: "center",
-                  }}
-                >
-                  {cat.name}
-                </span>
-              </Link>
-            ))}
-
-            {skinCategories.slice(3, 5).map((cat) => (
-              <Link
-                key={cat.name}
-                href="/quiz"
-                className="group flex flex-col items-center"
-              >
-                <div
-                  style={{
-                    width: "185px",
-                    height: "185px",
-                    background: "#FFFFFF",
-                    border: "0.5px solid rgba(0,0,0,0.25)",
-                    boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
-                    borderRadius: "12px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Image
-                    src={cat.image}
-                    alt={cat.name}
-                    width={130}
-                    height={131}
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </div>
-                <span
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "22px",
-                    fontWeight: 400,
-                    color: "#000000",
-                    marginTop: "4px",
-                    textAlign: "center",
-                  }}
-                >
-                  {cat.name}
-                </span>
-              </Link>
-            ))}
-
-            {/* Xem thêm */}
-            <Link
-              href="/products"
-              className="flex flex-col items-center justify-center"
-              style={{
-                width: "185px",
-                height: "185px",
-                background: "#FFFFFF",
-                border: "0.5px solid rgba(0,0,0,0.25)",
-                boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
-                borderRadius: "12px",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: '"Be Vietnam Pro", sans-serif',
-                  fontSize: "24px",
-                  fontWeight: 700,
-                  color: "#000000",
-                  textAlign: "center",
-                }}
-              >
-                Xem thêm
-              </span>
-              <span style={{ fontSize: "24px" }}>→</span>
-            </Link>
-          </div>
         </div>
       </div>
     </motion.section>
@@ -763,6 +607,29 @@ function GlowicFeaturesSection() {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
+  // ADDED
+  useEffect(() => {
+    const scrollToHashSection = () => {
+      if (!window.location.hash) {
+        return;
+      }
+
+      const id = window.location.hash.replace("#", "");
+
+      // UPDATED
+      window.setTimeout(() => {
+        scrollToSectionWithOffset(id);
+      }, 100);
+    };
+
+    scrollToHashSection();
+    window.addEventListener("hashchange", scrollToHashSection);
+
+    return () => {
+      window.removeEventListener("hashchange", scrollToHashSection);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <BannerSection />

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ShoppingCart,
   Star,
@@ -391,7 +392,7 @@ const loaiDaMap: Record<string, string[]> = {
 };
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
-export default function ProductsPage() {
+function ProductsContent() {
   const [filters, setFilters] = useState<Filters>({
     brands: [],
     congDung: [],
@@ -404,6 +405,19 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productsPerPage = 20;
+  const searchParams = useSearchParams();
+
+  // Tự động tích chọn thương hiệu khi link có ?brand=...
+  useEffect(() => {
+    const brandParam = searchParams.get("brand");
+    if (brandParam) {
+      setFilters((prev) => ({
+        ...prev,
+        brands: [brandParam],
+      }));
+      setCurrentPage(1);
+    }
+  }, [searchParams]);
 
   const toggleFilter = (
     key: "brands" | "congDung" | "loaiDa" | "loaiSanPham",
@@ -658,5 +672,18 @@ export default function ProductsPage() {
         />
       </div>
     </div>
+  );
+}
+export default function ProductsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen p-10 text-center">
+          Đang tải sản phẩm...
+        </div>
+      }
+    >
+      <ProductsContent />
+    </Suspense>
   );
 }
