@@ -20,6 +20,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { CartBadge } from "./CartBadge";
 import { useAuthStore } from "@/lib/store";
 import { products } from "@/lib/data";
+import { getBasePath } from "@/lib/getBasePath";
 
 type NavLink = {
   href: string;
@@ -211,7 +212,7 @@ function HamburgerMenu() {
     const queryKey = queryMap[activeCategory];
     const encodedValue = encodeURIComponent(value);
   
-    const url = `/products?${queryKey}=${encodedValue}`;
+    const url = `${getBasePath()}/products?${queryKey}=${encodedValue}`;
   
     // đóng menu trước khi chuyển
     setIsOpen(false);
@@ -375,13 +376,13 @@ export function Header() {
           </form>
 
           <div className="flex items-center gap-3 md:gap-4">
-            <Link href="/cart" className="relative">
-              <ShoppingCart className="h-6 w-6 text-white" />
+            <Link href="/cart" className="relative group">
+              <ShoppingCart className="h-6 w-6 text-white transition-colors group-hover:text-[#A53860]" />
               <CartBadge />
             </Link>
 
-            <Link href="/user" className="relative hidden sm:block">
-              <Bell className="h-6 w-6 text-white" />
+            <Link href="/user" className="relative hidden sm:block group">
+              <Bell className="h-6 w-6 text-white transition-colors group-hover:text-[#A53860]" />
               <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-xs font-medium text-white">
                 3
               </span>
@@ -389,30 +390,30 @@ export function Header() {
 
             <Link
               href="/faq"
-              className="hidden sm:block transition-transform hover:scale-110"
+              className="hidden sm:block transition-transform hover:scale-110 group"
             >
-              <MessageCircle className="h-6 w-6 text-white" />
+              <MessageCircle className="h-6 w-6 text-white transition-colors group-hover:text-[#A53860]" />
             </Link>
 
             <button
               onClick={toggleDarkMode}
-              className="text-white transition-transform hover:scale-110"
+              className="text-white transition-transform hover:scale-110 group"
               aria-label="Toggle dark mode"
             >
               {darkMode ? (
-                <Sun className="h-6 w-6" />
+                <Sun className="h-6 w-6 transition-colors group-hover:text-[#A53860]" />
               ) : (
-                <Moon className="h-6 w-6" />
+                <Moon className="h-6 w-6 transition-colors group-hover:text-[#A53860]" />
               )}
             </button>
 
             <Link
               href={currentUser ? "/user?tab=profile" : "/login"}
-              className="flex items-center gap-1.5 text-sm text-white"
+              className="flex items-center gap-1.5 text-sm text-white group"
             >
-              <User className="h-6 w-6" />
+              <User className="h-6 w-6 transition-colors group-hover:text-[#A53860]" />
               <span
-                className="hidden lg:inline"
+                className="hidden lg:inline transition-colors group-hover:text-[#A53860]"
                 style={{
                   fontFamily: '"Be Vietnam Pro", sans-serif',
                   fontSize: "18px",
